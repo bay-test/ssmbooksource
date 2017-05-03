@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.cscbms.dao.RoleDao">
+
+	<select id="findByPage" 
+		parameterType="com.cscbms.entity.page.Page" 
+		resultMap="roleMap">
+	<![CDATA[
+		select * from roleinfo order by roleid limit #{begin},#{end}
+	]]>
+	</select>
+	<select id="selectModules" 
+		parameterType="int" 
+		resultType="com.cscbms.entity.Module">
+		select * from moduleinfo where moduleid in (
+			select moduleid from rolemodule
+			where roleid=#{roleId}
+		)
+	</select>
+	<resultMap id="roleMap" type="com.cscbms.entity.Role">
+		<id column="roleid" property="roleId" />
+		<collection ofType="com.cscbms.entity.Module"
+			property="modules" javaType="java.util.ArrayList"
+			column="roleid" select="selectModules">
+		</collection>
+	</resultMap>
+	
+	<select id="findRows"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="int">
+		select count(*) from roleinfo
+	</select>	
+	
+	<select id="findAllModules"
+		resultType="com.cscbms.entity.Module">
+		select * from moduleinfo
+	</select>
+	
+	<select id="findById" parameterType="int" resultMap="roleMap">
+		select * from roleinfo where roleid=#{id}
+	</select>
+	
+	<insert id="saveRole" parameterType="com.cscbms.entity.Role">
+		<selectKey keyProperty="roleId" 
+			resultType="java.lang.Integer" 
+			order="BEFORE">
+			select roleseq.nextval from dual
+		</selectKey>
+		insert into roleinfo values(
+			#{roleId},
+			#{name,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="saveRoleModules" parameterType="hashMap">
+		insert into rolemodule values(
+			#{roleId,jdbcType=NUMERIC},
+			#{moduleId,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<update id="updateRole" parameterType="com.cscbms.entity.Role">
+		update roleinfo set name=#{name} where roleid=#{roleId}
+	</update>
+	
+	<delete id="deleteRoleModules" parameterType="int">
+		delete from rolemodule where roleid=#{roleId}
+	</delete>
+	
+	<delete id="deleteRole" parameterType="int">
+		delete from roleinfo where roleid=#{roleId}
+	</delete>
+	
+	<select id="findByName" parameterType="string" resultMap="roleMap">
+		select * from roleinfo where name=#{name}
+	</select>
+
+</mapper>

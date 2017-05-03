@@ -1,0 +1,10 @@
+#Sun Apr 09 22:22:04 CST 2017
+eclipse.preferences.version=1
+encoding//src/com/cscbms/controller/AccountController.java=UTF-8
+encoding//src/com/cscbms/controller/AdminController.java=UTF-8
+encoding//src/com/cscbms/controller/ServiceController.java=UTF-8
+encoding//src/com/cscbms/entity/Account.java=UTF-8
+encoding//src/com/cscbms/entity/page/Page.java=UTF-8
+encoding//src/com/cscbms/interceptor/CheckModuleInterceptor.java=UTF-8
+encoding//src/com/cscbms/test/TestLog4j.java=UTF-8
+encoding//src/com/cscbms/util/ImageUtil.java=UTF-8

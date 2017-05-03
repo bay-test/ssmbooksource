@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.cscbms.dao.AccountDao">
+
+	<select id="findByPage"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="com.cscbms.entity.Account">
+				select * from account
+				<where>
+					<if test="idcardNo!=null &amp;&amp; idcardNo.length()>0">
+						and idcardNo=#{idcardNo}
+					</if>
+					<if test="realName!=null &amp;&amp; realName.length()>0">
+						and realName=#{realName}
+					</if>
+					<if test="loginUserName!=null &amp;&amp; loginUserName.length()>0">
+						and loginUserName=#{loginUserName}
+					</if>
+					<if test='status!=null &amp;&amp; !status.equals("-1")'>
+						and status=#{status}
+					</if>
+				</where>
+				order by accountId limit #{begin},#{end}
+	</select>
+	
+	<select id="findRows"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="int">
+		select count(*) from account 
+		<where>
+			<if test="idcardNo!=null &amp;&amp; idcardNo.length()>0">
+				and idcardNo=#{idcardNo}
+			</if>
+			<if test="realName!=null &amp;&amp; realName.length()>0">
+				and realName=#{realName}
+			</if>
+			<if test="loginUserName!=null &amp;&amp; loginUserName.length()>0">
+				and loginname=#{loginName}
+			</if>
+			<if test='status!=null &amp;&amp; !status.equals("-1")'>
+				and status=#{status}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateStatus" 
+		parameterType="com.cscbms.entity.Account">
+		update account set status=#{status},
+		<choose>
+			<when test="status==0">
+				pausedate=null
+			</when>
+			<when test="status==1">
+				pausedate=NOW()
+			</when>
+			<otherwise>
+				closedate=NOW()
+			</otherwise>
+		</choose>
+		where accountid=#{accountId}
+	</update>
+
+	<select id="findById" 
+		parameterType="int" 
+		resultType="com.cscbms.entity.Account">
+		select a.*,r.idcardNo recommenderidcardNo from account a 
+		left join account r on a.recommenderAccountId=r.accountid
+		where a.accountid=#{id}
+	</select>
+	
+	<update id="update" 
+		parameterType="com.cscbms.entity.Account">
+	<![CDATA[
+		update account set 
+			recommenderAccountId=#{recommenderAccountId,jdbcType=NUMERIC},
+			realName=#{realName,jdbcType=VARCHAR},
+			telephone=#{telephone,jdbcType=VARCHAR},
+			email=#{email,jdbcType=VARCHAR},
+			occupation=#{occupation,jdbcType=VARCHAR},
+			gender=#{gender,jdbcType=CHAR},
+			mailaddress=#{mailAddress,jdbcType=VARCHAR},
+			zipcode=#{zipCode,jdbcType=CHAR},
+			qq=#{qq,jdbcType=VARCHAR}
+		where accountid=#{accountId}
+	]]>
+	</update>
+	
+	<insert id="save" 
+		parameterType="com.cscbms.entity.Account">
+	<![CDATA[
+		insert into account(recommenderAccountId,loginUserName,loginPassword,
+		status,createDate,pauseDate,closeDate,realName,idcardNo,birthDate,
+		gender,occupation,telephone,email,mailAddress,zipCode,qq,lastLoginTime,
+		lastLoginIp) values(
+			#{recommenderAccountId,jdbcType=NUMERIC},
+			#{loginUserName,jdbcType=VARCHAR},
+			#{loginPassword,jdbcType=VARCHAR},
+			#{status,jdbcType=CHAR},
+			#{createDate,jdbcType=TIMESTAMP},
+			#{pauseDate,jdbcType=TIMESTAMP},
+			#{closeDate,jdbcType=TIMESTAMP},
+			#{realName,jdbcType=VARCHAR},
+			#{idcardNo,jdbcType=VARCHAR},
+			#{birthDate,jdbcType=DATE},
+			#{gender,jdbcType=CHAR},
+			#{occupation,jdbcType=VARCHAR},
+			#{telephone,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{mailAddress,jdbcType=VARCHAR},
+			#{zipCode,jdbcType=CHAR},
+			#{qq,jdbcType=VARCHAR},
+			#{lastLoginTime,jdbcType=TIMESTAMP},
+			#{lastLoginIp,jdbcType=VARCHAR}
+		)
+	]]>
+	</insert>
+	
+	<select id="findByidcardNo" 
+		parameterType="string" 
+		resultType="com.cscbms.entity.Account">
+		select * from account where idcardNo=#{idcardNo}
+	</select>	
+	
+</mapper>

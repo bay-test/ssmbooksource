@@ -1,0 +1,389 @@
+/* 全局样式 */
+body
+{
+    background-image: url(../images/body_bg.png);
+    background-color: #0063a0;
+}
+
+/* 页头部分：header */
+#header
+{
+    background: url(../images/top_bg.png) no-repeat;
+}
+#header a
+{
+    color: #fff;
+    text-decoration: none;
+}
+
+/* 导航部分：navi */
+#navi
+{
+    background: url(../images/navigation.png) repeat-x;
+}
+.index_on
+{
+    background: url(../images/index_on.png) no-repeat;
+}
+.index_off
+{
+    background: url(../images/index_out.png) no-repeat;
+}
+.role_on
+{
+    background: url(../images/role_on.png) no-repeat;
+}
+.role_off
+{
+    background: url(../images/role_out.png) no-repeat;
+}
+.admin_on
+{
+    background: url(../images/admin_on.png) no-repeat;
+}
+.admin_off
+{
+    background: url(../images/admin_out.png) no-repeat;
+}
+.fee_on
+{
+    background: url(../images/fee_on.png) no-repeat;
+}
+.fee_off
+{
+    background: url(../images/fee_out.png) no-repeat;
+}
+.account_on
+{
+    background: url(../images/account_on.png) no-repeat;
+}
+.account_off
+{
+    background: url(../images/account_out.png) no-repeat;
+}
+.service_on
+{
+    background: url(../images/service_on.png) no-repeat;
+}
+.service_off
+{
+    background: url(../images/service_out.png) no-repeat;
+}
+.bill_on
+{
+    background: url(../images/bill_on.png) no-repeat;
+}
+.bill_off
+{
+    background: url(../images/bill_out.png) no-repeat;
+}
+.report_on
+{
+    background: url(../images/report_on.png) no-repeat;
+}
+.report_off
+{
+    background: url(../images/report_out.png) no-repeat;
+}
+.information_on
+{
+    background: url(../images/information_on.png) no-repeat;
+}
+.information_off
+{
+    background: url(../images/information_out.png) no-repeat;
+}
+.password_on
+{
+    background: url(../images/password_on.png) no-repeat;
+}
+.password_off
+{
+    background: url(../images/password_out.png) no-repeat;
+}
+
+/* 正文区域：main */
+#main
+{
+    background: #e8f3f8;
+    border:5px solid #8ac1db;
+}
+
+
+/* 正文：表格部分 */
+#datalist
+{
+    background-color:#fff;
+}
+#datalist td
+{
+    border: #CCC solid 1px;
+}
+#datalist tr:hover
+{
+    background-color:#f7f9fd;
+}
+#datalist th
+{
+    background: #fbedce;
+    border: #CCC solid 1px;
+}
+
+/* 表格中显示详细消息 */
+div.detail_info
+{
+    background-color: #fbf0db;
+    border: 1px solid #ff9000;
+    color: #000;
+}
+
+/* 正文：表单部分（div实现方式） */
+span.required
+{
+    color:Red;
+    /*border:1px solid red;*/
+}
+/*div.validate_msg_long,div.validate_msg_medium,div.validate_msg_short,div.validate_msg_tiny*/
+div.error_msg
+{
+    color:Red;
+    background-image:url("../images/wrong.gif") ;
+    background-repeat:no-repeat;
+    background-position:left center;
+    border:1px solid red;
+}
+p.hide
+{
+    border-bottom:1px solid red;
+}
+#divPwds
+{
+    border-top:1px dotted #a1c7d9;
+    border-bottom:1px dotted #a1c7d9;
+    background-color:#fafeff;
+}
+#optionalInfo
+{
+   background-color:#f4f4f4;
+   border:1px solid #b4b4b4;
+}
+
+/* 保存操作后的提示消息 */
+div.save_success
+{
+    background-color: #fbf0db;
+    border: 1px solid #ff9000;
+    color: #af6606;
+    background-image: url(../images/ok.png);
+    background-repeat: no-repeat;
+    background-position:10px center;
+}
+div.save_fail
+{
+    background-color: #fbf0db;
+    border: 1px solid #ff9000;
+    color: #F00;
+    background-image: url(../images/fail.png);
+    background-repeat: no-repeat;
+    background-position:10px center;
+}
+
+/* 删除操作后的提示消息 */
+div.operate_success
+{
+    background-color: #fdecec;
+    border: 1px solid #f57676;
+    color: #af6606;    
+    background-image: url(../images/ok.png);
+    background-repeat: no-repeat;
+    background-position:10px center;
+}
+div.operate_fail
+{
+    background-color: #fdecec;
+    border: 1px solid #f57676;
+    color: #f00;    
+    background-image: url(../images/warning.png);
+    background-repeat: no-repeat;
+    background-position:10px center;
+}
+
+/* 正文：分页功能区 */
+#pages a
+{
+    color: #000;
+}
+#pages a:hover
+{
+    background: #cddde4;
+    border: #97b9c9 solid 1px;
+    color: #067db5;
+}
+#pages a.current_page
+{
+    background: #FFF;
+    border: #89bdd8 solid 1px;
+    color: #067db5;
+}
+
+
+/* 页脚部分：footer */
+#footer
+{
+    color: #FFF;
+}
+
+/* 表单上的元素：控件 */
+input,select
+{
+    border:1px solid silver;
+}
+input.readonly,textarea.readonly,span.readonly
+{
+    background-color:#f6f6f6;
+}
+input:focus,select:focus
+{
+    border-left:1px solid gray;
+    border-top:1px solid gray;
+}
+input.btn_search,input.btn_search:hover,input.btn_search:active
+{
+    background: url(../images/search.png) no-repeat;
+    color: #0a97c9;
+    border:0;
+}
+input.btn_search_large,input.btn_search_large:hover,input.btn_search_large:active
+{
+    background: url(../images/search_large.png) no-repeat;
+    color: #0a97c9;
+    border:0;
+}
+input.btn_search:hover,input.btn_search_large:hover
+{
+    color: #0a97ff;
+}
+input.btn_add,input.btn_add:hover
+{
+    background: url(../images/btn_bg.png) no-repeat left top;
+    color: #fff;
+    border:0;
+}
+input.btn_modify,input.btn_modify:hover
+{
+    background: url(../images/modification.png) no-repeat left center;
+    color: #000;
+    border:0;
+}
+input.btn_delete,input.btn_delete:hover
+{
+    background: url(../images/delete.png) no-repeat left center;
+    color: #000;
+    border:0;
+}
+input.btn_start,input.btn_start:hover
+{
+    background: url(../images/start.png) no-repeat left center;
+    color: #000;
+    border:0;
+}
+input.btn_pause,input.btn_pause:hover
+{
+    background: url(../images/pause.png) no-repeat left center;
+    color: #000;
+    border:0;
+}
+input.btn_save
+{
+    background: url(../images/form_btn.png) no-repeat;
+    color: #FFF;
+    border:0;
+}
+input.btn_save:hover
+{
+    background: url(../images/form_btn_on.png) no-repeat;
+}
+input.sort_asc
+{
+    background: url(../images/up.png) no-repeat;
+    color: #FFF;
+}
+input.sort_desc
+{
+    background: url(../images/down.png) no-repeat;
+    color: #FFF;
+}
+input.sort_asc,input.sort_desc,input.sort_asc:hover,input.sort_desc:hover
+{
+    border:0;
+}
+
+/* 主页 */
+body.index
+{
+    background-color: #00629f;
+    background-image: url(../images/index_bg.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+#index_navi
+{
+    background: url(../images/index_navi_bg.png) repeat-x;
+}
+/* 登录页面 */
+body.login
+{
+    background-color: #00629f;
+    background-image: url(../images/login_bg.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+div.login_box
+{
+    background: url(../images/login_box.jpg) no-repeat;
+}
+div.login_box table tr td
+{
+    color: #FFF;
+}
+/* 错误页面 */
+body.error_page
+{
+    background-color: #00629f;
+    background-image: url(../images/error.png);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+body.error_power_page
+{
+    background-color: #00629f;
+    background-image: url(../images/error_power.png);
+    background-position: center 40%;
+    background-repeat: no-repeat;
+}
+#error
+{
+    color: #FFF;
+}
+#error span,#error a
+{
+    color:Yellow;
+}
+#error a:hover
+{
+    color:#FFF;
+}
+/* 报表页面 */
+#report_main
+{
+    background-color:#8ac1db; 
+}
+a.tab_on{
+	background:url(../images/tab_on.png) no-repeat;
+	color:#006e98;	
+}
+a.tab_out{
+	background:url(../images/tab_out.png) no-repeat;
+	color:#fff;	
+}

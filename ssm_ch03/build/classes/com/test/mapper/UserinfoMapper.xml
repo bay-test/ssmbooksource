@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.UserinfoMapper">
+
+
+
+
+	<!-- <select id="selectUserinfoById" parameterType="int" resultType="hashmap"> 
+		SELECT * FROM Userinfo WHERE userid = #{userid} </select> -->
+
+	<resultMap id="userinfoResultMap" type="com.test.domain.Userinfo">
+		<id property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+	</resultMap>
+	<resultMap id="addressResultMap" type="com.test.domain.Address">
+		<id property="addrid" column="addrid" />
+		<result property="city" column="city" />
+		<result property="street" column="street" />
+		<result property="zip" column="zip" />
+	</resultMap>
+
+
+
+	<resultMap id="userinfoAndAddressResultMap" type="com.test.domain.Userinfo"
+		extends="userinfoResultMap">
+		<id property="address.addrid" column="addrid" />
+		<result property="address.city" column="city" />
+		<result property="address.street" column="street" />
+		<result property="address.zip" column="zip" />
+	</resultMap>
+
+	<resultMap id="userinfoAndAddressResultMap1" type="com.test.domain.Userinfo">
+		<id property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="address.addrid" column="addrid" />
+		<result property="address.city" column="city" />
+		<result property="address.street" column="street" />
+		<result property="address.zip" column="zip" />
+
+	</resultMap>
+
+
+
+	<resultMap id="userinfoAndAddressResultMap2" type="com.test.domain.Userinfo">
+		<id property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<association property="address" resultMap="addressResultMap"></association>
+	</resultMap>
+
+	<resultMap id="userinfoAndAddressResultMap3" type="com.test.domain.Userinfo">
+		<id property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<association property="address" column="addrid"
+			javaType="com.test.domain.Address">
+			<id property="addrid" column="addrid" />
+			<result property="city" column="city" />
+			<result property="street" column="street" />
+			<result property="zip" column="zip" />
+		</association>
+	</resultMap>
+
+
+	<resultMap id="userinfoAndAddressResultMap4" type="com.test.domain.Userinfo">
+		<id property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<association property="address" column="addrid" select="selectAddressById" />
+	</resultMap>
+
+
+
+
+	<!-- <select id="selectUserinfoAndAddress" parameterType="int" resultMap="userinfoAndAddressResultMap"> 
+		SELECT userid, username,password,a.addrid,city,street, zip FROM userinfo 
+		u LEFT OUTER JOIN address a ON u.addrid=a.addrid WHERE userid = #{userid} 
+		</select> -->
+	<select id="selectUserinfoById" parameterType="int"
+		resultMap="userinfoResultMap">
+		SELECT userid,username,password FROM userinfo WHERE userid =
+		#{userid}
+	</select>
+
+	<select id="selectAddressById" parameterType="int" resultMap="addressResultMap">
+		SELECT * FROM address WHERE addrid=#{addrid}
+	</select>
+
+
+	<select id="selectUserinfoAndAddress1" parameterType="int"
+		resultMap="userinfoAndAddressResultMap1">
+		SELECT userid, username,password,a.addrid,city,street, zip
+		FROM userinfo u LEFT OUTER JOIN address a ON u.addrid=a.addrid WHERE
+		userid = #{userid}
+	</select>
+
+	<select id="selectUserinfoAndAddress2" parameterType="int"
+		resultMap="userinfoAndAddressResultMap2">
+		SELECT userid, username,password,a.addrid,city,street, zip
+		FROM userinfo u LEFT OUTER JOIN address a ON u.addrid=a.addrid WHERE
+		userid = #{userid}
+	</select>
+
+	<select id="selectUserinfoAndAddress3" parameterType="int"
+		resultMap="userinfoAndAddressResultMap3">
+		SELECT userid, username,password,a.addrid,city,street, zip
+		FROM userinfo u LEFT OUTER JOIN address a ON u.addrid=a.addrid WHERE
+		userid = #{userid}
+	</select>
+
+	<select id="selectUserinfoAndAddress4" parameterType="int"
+		resultMap="userinfoAndAddressResultMap4">
+		SELECT * FROM userinfo where userid=#{userid}
+	</select>
+
+
+
+
+
+	<!-- <select id="selectUserinfoById" parameterType="int" resultType="userinfo"> 
+		SELECT id,username,password FROM userinfo WHERE id = #{id} </select> -->
+
+
+
+	<select id="selectUserinfo" parameterType="userinfo" resultType="userinfo">
+		SELECT * FROM userinfo WHERE 1=1
+		<if test="username != null">
+			AND username like #{username}
+		</if>
+		<if test="nickname != null">
+			AND nickname like #{nickname}
+		</if>
+	</select>
+
+	<select id="selectUserinfo1" parameterType="userinfo"
+		resultType="userinfo">
+		SELECT * FROM userinfo WHERE 1=1
+		<choose>
+			<when test="username != null">
+				AND username like #{username}
+			</when>
+			<when test="nickname != null">
+				AND nickname like #{nickname}
+			</when>
+			<otherwise>
+				AND nickname = "bay"
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="selectUserinfo2" parameterType="userinfo"
+		resultType="userinfo">
+		SELECT * FROM userinfo
+		<where>
+			<if test="username != null">
+				AND username like #{username}
+			</if>
+			<if test="nickname != null">
+				AND nickname like #{nickname}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectUserinfo3" parameterType="userinfo"
+		resultType="userinfo">
+		SELECT * FROM userinfo
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="username != null">
+				AND username like #{username}
+			</if>
+			<if test="nickname != null">
+				AND nickname like #{nickname}
+			</if>
+		</trim>
+	</select>
+
+	<select id="selectUserinfo4" resultType="userinfo">
+		SELECT * FROM userinfo where userid in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
+	</select>
+
+	<select id="selectUserinfo5" resultType="userinfo">
+		SELECT * FROM userinfo where userid in
+		<foreach collection="array" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<select id="selectUserinfo6" resultType="userinfo">
+		SELECT * FROM userinfo where username like "%"#{username}"%" and userid in
+		<foreach collection="ids" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+
+
+
+	<update id="updateUserinfo" parameterType="userinfo">
+		UPDATE userinfo
+		<set>
+			<if test="username != null">
+				username = #{username}
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname}
+			</if>
+
+		</set>
+		WHERE userid = #{userid}
+	</update>
+
+
+
+
+</mapper>
+
+
+
+
+
+

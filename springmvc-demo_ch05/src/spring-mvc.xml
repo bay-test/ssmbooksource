@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">                    
+
+    <!-- 启动spring自动扫描 -->
+    <context:component-scan base-package="com.test.controller"/>
+    <!-- if you use annotation you must configure following setting -->
+    <mvc:annotation-driven />
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <!-- configure the InternalResourceViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+            id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+    
+    <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" /> <!-- 默认编码 (ISO-8859-1) -->
+		<property name="maxInMemorySize" value="10240" /> <!-- 最大内存大小 (10240) -->
+		<property name="uploadTempDir" value="/temp/" /> <!--(临时文件存储目录) 上传后的目录名 (WebUtils#TEMP_DIR_CONTEXT_ATTRIBUTE) -->
+		<property name="maxUploadSize" value="-1" /> <!-- 最大文件大小，-1为无限止(-1) -->
+	</bean>
+    
+</beans>

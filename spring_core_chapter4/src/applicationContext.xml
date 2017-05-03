@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- <context:component-scan base-package="com.ssm.chapter4"></context:component-scan>
+	<bean name="geLi" class="com.ssm.chapter4.ioc.LiuDeHua"></bean>
+	<bean name="moAttack" class="com.ssm.chapter4.ioc.MoAttack">
+		<property name="geLi" ref="geLi"></property>
+	</bean> -->
+	<!-- <bean name="audience" class="com.ssm.chapter4.aop.Audience"></bean>
+	<aop:config>
+		<aop:aspect>
+			<aop:pointcut expression="execution( * com.ssm.chapter4.aop.Performance.perform(..))" id="performance"/>
+			<aop:around method="watchPerform" pointcut-ref="performance"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean> -->
+    <!-- <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean> -->
+     <!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean> -->
+  <!--   <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManagerName" value="java:/TransactionManager" />
+    </bean> -->
+  	<!-- 声明一个事务管理的fooService bean -->
+    <bean id="fooService" class="com.ssm.chapter4.service.DefaultFooService"></bean>
+    <!-- 声明事务通知 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!--属性属性 -->
+        <tx:attributes>
+            <!-- 所有以get开头的方法 read-only -->
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <!-- 其它方法使用事务读写设置 -->
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 声明事务切面 -->
+     <aop:config>
+        <aop:pointcut id="fooServiceOperation" expression="execution(* com.ssm.chapter4.service.FooService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation"/>
+    </aop:config>
+
+    <!-- 声明数据源bean -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql:///mytest"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!-- 声明一个事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+   
+</beans>
+	

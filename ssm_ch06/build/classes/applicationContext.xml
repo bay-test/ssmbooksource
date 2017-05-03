@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.test" />
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxTotal" value="${maxTotal}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWaitMillis" value="${maxWaitMillis}"></property>
+		<!-- 事务是否自动提交 -->
+		<property name="defaultAutoCommit" value="${defaultAutoCommit}"></property>
+		
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/test/mapper/*.xml"></property>
+	</bean>
+	
+	<!--Mapper接口调用方式要用，如果不用mapper接口方式采用实体dao的话，可以不配 接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.test.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!--采用实体dao调用方式要用， 在dao里可以用注解@Resource(name = "sqlSessionTemplate") 方式得到或用ao继承SqlSessionDaoSupport 再采用setter方式对dao进行注入-->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- (事务管理器)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	<!-- (AOP事务管理方法匹配规则) -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception"/>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" /> 
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+			           
+		</tx:attributes>
+	</tx:advice>	
+	<!-- AOP事务处理 -->
+	<aop:config>
+		<aop:pointcut id="allServiceMethods" expression="execution(* com.test.service..*(..))" />
+		<aop:advisor pointcut-ref="allServiceMethods" advice-ref="txAdvice" />
+	</aop:config>
+
+	
+
+</beans>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 属性 -->
+	<properties resource="jdbc.properties">
+		<property name="jdbc.username" value="root" />
+		<property name="jdbc.password" value="root" />
+	</properties>
+	<!-- 全局参数设置 -->
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="student" type="com.test.domain.Student" />
+		<package name="com.test.domain" />
+	</typeAliases>
+
+
+
+
+	<typeHandlers>
+		<!-- 使用package元素将扫描 com.test.type 包下的全部类型处理器 -->
+		<!-- <package name="com.test.type"/> -->
+		<typeHandler handler="com.test.type.LocalDateTypeHandler" />
+		<typeHandler handler="com.test.type.LocalTimeTypeHandler" />
+	</typeHandlers>
+
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="release">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://192.168.1.110:3306/mydb" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+
+	<mappers>
+		<!-- <mapper resource="com/test/mapper/xml/StudentMapper.xml" />
+		<mapper resource="com/test/mapper/xml/UserinfoMapper.xml" />
+		<mapper resource="com/test/mapper/xml/DepartmentMapper.xml" /> -->
+		<package name="com.test.mapper"/>
+	</mappers>
+
+
+<!-- 	<objectFactory type="com.test.factory.ExampleObjectFactory">
+		<property name="someProperty1" value="1000" />
+		<property name="someProperty2" value="2000" />
+	</objectFactory>
+
+	<plugins>
+		<plugin interceptor="com.test.plugin.ExamplePlugin">
+			<property name="someProperty" value="100" />
+		</plugin>
+	</plugins> -->
+
+</configuration>

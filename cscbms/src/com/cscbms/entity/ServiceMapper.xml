@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.cscbms.dao.ServiceDao">
+
+	<select id="findByPage"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="com.cscbms.vo.ServiceVo">
+		select  s.*,a.realName,a.idcardNo,c.name costName,c.descr from service s
+		inner join account a on a.accountid=s.accountid
+		inner join cost c on c.costid=s.costid
+		<where>
+			<if test="serverUserName!=null &amp;&amp; serverUserName.length()>0">
+				and s.serverUserName=#{serverUserName}
+			</if>
+			<if test="hostIp!=null &amp;&amp; hostIp.length()>0">
+				and s.hostIp=#{hostIp}
+			</if>
+			<if test="idcardNo!=null &amp;&amp; idcardNo.length()>0">
+				and a.idcardno=#{idcardNo}
+			</if>
+			<if test='status!=null &amp;&amp; !status.equals("-1")'>
+				and s.status=#{status}
+			</if>
+		</where>
+				order by s.serviceid limit #{begin},#{end}
+	</select>
+	
+	<select id="findRows"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="int">
+		select 
+			count(*)
+		from service s
+		inner join account a on a.accountid=s.accountid
+		inner join cost c on c.costid=s.costid
+		<where>
+			<if test="serverUserName!=null &amp;&amp; serverUserName.length()>0">
+				and s.serverUserName=#{serverUserName}
+			</if>
+			<if test="hostIp!=null &amp;&amp; hostIp.length()>0">
+				and s.hostIp=#{hostIp}
+			</if>
+			<if test="idcardNo!=null &amp;&amp; idcardNo.length()>0">
+				and a.idcardNo=#{idcardNo}
+			</if>
+			<if test='status!=null &amp;&amp; !status.equals("-1")'>
+				and s.status=#{status}
+			</if>
+		</where>
+	</select>	
+	
+	<update id="updateStatus" 
+		parameterType="com.cscbms.entity.Service">
+		update service set status=#{status},
+		<choose>
+			<when test="status=='0'">
+				pausedate=null
+			</when>
+			<when test="status=='1'">
+				pausedate=NOW()
+			</when>
+			<otherwise>
+				closedate=NOW()
+			</otherwise>
+		</choose>
+		where serviceid=#{serviceId}
+	</update>	
+	
+	<update id="pauseByAccount" parameterType="int">
+		update service set status='1',pausedate=NOW()
+		where accountid=#{accountId}
+	</update>
+	
+	<update id="deleteByAccount" parameterType="int">
+		update service set status='2',closedate=NOW()
+		where accountid=#{accountId}
+	</update>
+	<update id="update" parameterType="com.cscbms.entity.Service">
+		update service set costId=#{costId}
+		where serviceid=#{serviceId}
+	</update>
+	
+	<select id="findById" 
+		parameterType="int" 
+		resultType="com.cscbms.entity.Service">
+		select * from service where serviceid=#{id}
+	</select>
+	
+	<insert id="save" parameterType="com.cscbms.entity.Service">
+		insert into service(accountId,hostIp,serverUserName,password,createDate,createDate,closeDate,costId) values(
+			values (#{accountId},
+			#{hostIp,jdbcType=VARCHAR},
+			#{serverUserName,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR},
+			#{createDate,jdbcType=TIMESTAMP},
+			#{pauseDate,jdbcType=TIMESTAMP},
+			#{closeDate,jdbcType=TIMESTAMP},
+			#{costId,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<insert id="insertUpdateBak" parameterType="com.cscbms.entity.Service">
+		insert into serviceupdatebak(serviceId,costId) values(
+			#{serviceId,jdbcType=NUMERIC},
+			#{costId,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+</mapper>

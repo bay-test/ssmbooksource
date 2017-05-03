@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.DepartmentMapper">
+
+
+
+
+	<resultMap id="employeeResultMap" type="com.test.domain.Employee">
+		<id property="empid" column="empid" />
+		<result property="empname" column="empname" />
+	</resultMap>
+
+
+
+	<resultMap id="departmentResultMap" type="com.test.domain.Department">
+		<id property="depid" column="depid" />
+		<result property="depname" column="depname" />
+		<collection property="employees" resultMap="employeeResultMap"></collection>
+	</resultMap>
+
+
+	<resultMap id="departmentResultMap1" type="com.test.domain.Department">
+		<id property="depid" column="depid" />
+		<result property="depname" column="depname" />
+		<collection property="employees" select="selectEmployeeById"
+			column="depid"></collection>
+	</resultMap>
+
+
+	<select id="selectDepartmentAndEmployeeById" parameterType="int"
+		resultMap="departmentResultMap">
+		SELECT dep.depid, dep.depname,emp.empid,emp.empname
+		FROM
+		department dep LEFT OUTER JOIN employee emp ON dep.depid=emp.depid
+		WHERE
+		dep.depid = #{depid}
+	</select>
+
+	<select id="selectDepartmentAndEmployeeById1" parameterType="int"
+		resultMap="departmentResultMap1">
+		SELECT dep.depid, dep.depname
+		FROM
+		department dep
+		WHERE
+		dep.depid = #{depid}
+	</select>
+
+
+
+	<select id="selectEmployeeById" parameterType="int"
+		resultMap="employeeResultMap">
+		SELECT emp.empid,emp.empname
+		FROM
+		employee emp
+		WHERE
+		emp.empid =
+		#{empid}
+	</select>
+
+
+	
+
+
+
+
+
+</mapper>
+
+
+
+
+
+

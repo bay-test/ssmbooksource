@@ -1,0 +1,682 @@
+
+/* 全局样式 */
+body, p, div, ul, ol, li, dl, dd, dt, h1, h2, h3, h4, h5, h6, form, input, select, label, table, tr, td, th, thead, tbody, tfoot
+{
+    margin: 0px auto;
+    padding: 0px;
+    border: 0;
+}
+ul, ol
+{
+    list-style: none;
+}
+body
+{
+    font-size: 12px;
+    font-family: Tahoma,Geneva,sans-serif;
+    background-position: top;
+    background-repeat: repeat-x;
+}
+table
+{
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 910px;
+    border: 0px;
+    text-align: left;
+}
+a
+{
+    text-decoration: none;
+}
+input, select
+{
+    height: 30px;
+    line-height: 27px;
+    padding-left: 3px;
+}
+textarea
+{
+    font-size: 12px;
+    font-family: Tahoma,Geneva,sans-serif;
+}
+.width50
+{
+    width: 50px;
+}
+.width70
+{
+    width: 70px;
+}
+.width80
+{
+    width: 90px;
+}
+.width100
+{
+    width: 100px;
+}
+.width110
+{
+    width:110px;
+}
+.width150
+{
+    width: 150px;
+}
+.width180
+{
+    width: 180px;
+}
+.width200
+{
+    width: 200px;
+}
+.width300
+{
+    width: 300px;
+}
+.width350
+{
+    width: 350px;
+}
+.width400
+{
+    width: 400px;
+}
+.width600
+{
+    width: 600px;
+}
+.height70
+{
+    height: 70px;
+}
+.hide
+{
+    display: none;
+}
+.show
+{
+    display: block;
+}
+
+/*清除浮动*/
+.clearfix
+{
+    clear: both;
+}
+
+/*浮动对象*/
+.left
+{
+    float: left;
+    display: inline;
+}
+.right
+{
+    float: right;
+    display: inline;
+}
+/*布局*/
+#header, #menu, #footer
+{
+    width: 960px;
+    margin: 0px auto;
+}
+
+/*页头部分：header*/
+#header
+{
+    text-align: right;
+    height: 61px;
+}
+#header a
+{
+    margin-right: 50px;
+    line-height: 61px;
+    font-weight: bold;
+}
+
+/*导航部分：navi*/
+#navi
+{
+    width: 100%;
+    height: 91px;
+    overflow: hidden;
+}
+#menu
+{
+    overflow: hidden;
+    margin-top: 3px;
+}
+#navi li
+{
+    float: left;
+    padding: 0 14px;
+}
+#navi a
+{
+    display: block;
+    width: 68px;
+    height: 77px;
+    overflow: hidden;
+    float: left;
+}
+
+/*正文区域：main*/
+#main
+{
+    min-height: 410px;
+    width: 950px;
+    padding: 5px;
+    margin-top: 5px;
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+form.main_form
+{
+    width: 800px;
+    margin: 15px auto;
+}
+
+
+/*正文：查询条件部分*/
+div.search_add
+{
+    width: 910px;
+    height: 30px;
+    text-align: right;
+    margin-top: 3px;
+}
+div.search_add div
+{
+    float: left;
+    margin-right: 18px;
+    line-height: 23px;
+}
+div.search_add span
+{
+    margin-left: 5px;
+}
+
+/*正文：数据表格部分*/
+#data
+{
+    min-height: 330px;
+}
+#datalist
+{
+    margin-top: 5px;
+    text-align: center;
+    width:100%;
+}
+#datalist td
+{
+    height: 32px;
+    line-height: 32px;
+}
+#datalist th
+{
+    font-weight: bold;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+}
+td.td_modi,th.td_modi
+{
+    width: 130px;
+    text-align: center;
+}
+th.th_select_all
+{
+    width: 70px;
+}
+#datalist th input
+{
+    height: 35px;
+    line-height: 35px;
+    float: left;
+    margin-left: 8px;
+    border-width: 0px;
+}
+#datalist th span
+{
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    float: left;
+    margin-left: 5px;
+}
+#datalist tr input
+{
+    border-width: 0px;
+}
+
+/* 表格中的显示详细 */
+a.summary
+{
+    cursor: default;
+    color: gray;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    line-height: 100%;
+}
+div.detail_info
+{
+    position: absolute;
+    z-index: 1000;
+    min-width: 150px;
+    min-height: 40px;
+    display: none;
+    padding: 3px;
+    overflow: visible;
+    text-align: left;
+}
+
+/* 正文：表单部分（div实现方式） */
+div.text_info
+{
+    width: 200px;
+    text-align: right;
+    float: left;
+    height: 40px;
+    margin-top: 5px;/*5*/
+    /*border:1px solid black;*/
+    margin-bottom:5px;
+}
+div.text_info span
+{
+    display: block;
+}
+div.input_info
+{
+    width: 580px;
+    text-align: left;
+    margin-left: 10px;
+    float: left;
+    height: 40px;
+}
+div.input_info span.info
+{
+    display:inline-block;
+    width:50px;
+}
+div.fee_type input, div.fee_type label
+{
+    border-width: 0px;
+    display: block;
+    height: 30px;
+    line-height: 27px;
+    float: left;
+    margin-left: 5px;
+}
+div.fee_type label
+{
+    margin-left: 3px;
+    margin-right: 5px;
+}
+div.change_pwd
+{
+    clear: both;
+    width: 410px;
+    float: right;
+}
+div.change_pwd input, div.change_pwd label
+{
+    display: block;
+    height: 30px;
+    line-height: 27px;
+    float: left;
+    margin-left: 5px;
+    border-width: 0px;
+}
+#optionalInfo
+{
+    clear: both;
+    height: 390px;
+    padding-top: 10px;
+}
+#divPwds
+{
+    display: none;
+    clear: both;
+    height: 130px;
+    padding-top: 10px;
+}
+
+div.validate_msg_long, div.validate_msg_medium, div.validate_msg_short, div.validate_msg_tiny
+{
+    /*height: 28px;*/
+    line-height: 28px;
+    float: right;
+    overflow: hidden;
+    text-align: left;
+    padding-left:5px;
+}
+div.error_msg
+{
+    padding-left:17px;
+}
+div.validate_msg_long
+{
+    width: 390px;
+}
+div.validate_msg_medium
+{
+    width: 340px;
+}
+div.validate_msg_short
+{
+    width: 240px;
+    line-height: 28px;
+}
+div.validate_msg_tiny
+{
+    width: 190px;
+    line-height: 28px;
+}
+div.input_info_scroll
+{
+    width: 360px;
+    text-align: left;
+    float: left;
+    height: 87px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    border: 1px solid silver;
+}
+div.input_info_scroll li
+{
+    float: left;
+    line-height: 22px;
+    height: 22px;
+    margin: 2px 2px 5px 5px;
+    width: 106px;
+}
+div.input_info_scroll li span
+{
+    display: block;
+    float: left;
+    line-height: 22px;
+    height: 22px;
+}
+div.input_info_scroll li input
+{
+    height: 22px;
+    line-height: 22px;
+    margin-right: 3px;
+    float: left;
+    border-width: 0px;
+}
+div.input_info_high
+{
+    width: 580px;
+    text-align: left;
+    margin-left: 10px;
+    float: left;
+    height: 90px;
+    margin-bottom: 10px;
+}
+div.button_info
+{
+    text-align: left;
+    width: 380px;
+    /*border:1px solid blue;*/
+}
+span.required
+{
+    font-size:10pt;
+}
+
+/* 保存操作后的提示消息 */
+#save_result_info
+{
+    width: 600px;
+    line-height: 50px;
+    padding-left: 40px;
+    font-size: 14px;
+    display: none;
+    font-weight:bold;
+}
+
+/* 删除操作后的提示消息 */
+#operate_result_info
+{
+    width: 400px;
+    line-height: 70px;
+    padding-left: 40px;
+    font-size: 16px;
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 90px;
+    left: 30%;
+}
+#operate_result_info img
+{
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* 正文：分页功能区 */
+#pages
+{
+    width: 940px;
+    text-align: center;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 5px;
+}
+#pages a, #pages a.current_page:hover
+{
+    padding: 5px 10px;
+}
+#pages a:hover
+{
+    padding: 5px 9px;
+}
+
+/*页脚部分：footer*/
+#footer
+{
+    width: 960px;
+    height: 50px;
+    padding: 5px 0;
+    line-height: 25px;
+    text-align: center;
+}
+
+/* 表单上的元素：控件 */
+span.readonly
+{
+    line-height: 28px;
+    display: inline-block;
+    text-align: left;
+    padding-left: 3px;
+}
+input.text_search, select.select_search
+{
+    height: 23px;
+    line-height: 23px;
+    margin-left: 0px;
+}
+input.btn_search
+{
+    height: 26px;
+    line-height: 26px;
+    width: 74px;
+    padding-left: 13px;
+    margin-left: 3px;
+}
+input.btn_search_large
+{
+    height: 26px;
+    line-height: 26px;
+    width: 110px;
+    padding-left: 18px;
+    margin-left: 3px;
+}
+input.btn_search:hover,input.btn_search_large:hover
+{
+    font-weight: bold;
+}
+input.btn_add
+{
+    height: 26px;
+    line-height: 26px;
+    width: 71px;
+    text-align: center;
+    overflow: hidden;
+    padding-left: 0px;
+}
+input.btn_modify, input.btn_delete, input.btn_start, input.btn_pause
+{
+    margin-left: 3px;
+    width: 55px;
+    cursor: pointer;
+}
+input.btn_save
+{
+    width: 100px;
+    height: 36px;
+    line-height: 26px;
+    font-size: 20px;
+    font-family: "黑体";
+    text-align: center;
+    margin-right: 5px;
+}
+input.sort_asc, input.sort_desc
+{
+    width: 71px;
+    height: 26px;
+    line-height: 26px;
+    font-family: "黑体";
+    text-align: center;
+    padding-right: 10px;
+}
+
+/* 主页 */
+#index_navi
+{
+    width: 100%;
+    height: 91px;
+    position: absolute;
+    bottom: 0;
+}
+#index_navi li
+{
+    margin-top: 10px;
+    float: left;
+    padding: 0 14px;
+}
+#index_navi a
+{
+    display: block;
+    width: 68px;
+    height: 77px;
+    overflow: hidden;
+    float: left;
+}
+
+/* 登录页面 */
+div.login_box
+{
+    width: 450px;
+    height: 200px;
+    padding-top: 70px;
+    margin-top: 150px;
+    font-size: 12pt;
+    font-weight: bold;
+}
+div.login_box table
+{
+    width:98%;
+}
+div.login_box table tr td
+{
+    padding-left: 5px;
+    height: 44px;
+}
+td.login_info
+{
+    text-align: right;
+    width: 150px;
+    padding-right: 5px;
+}
+td.login_error_info
+{
+    width:130px;
+}
+td.login_button
+{
+    text-align: left;
+    padding-top: 5px;
+}
+td.login_button img
+{
+    border-width: 0px;
+}
+
+/* 错误页面 */
+#error
+{
+    width: 960px;
+    text-align: center;
+    margin-top: 400px;
+}
+#error a:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+/* 报表页面 */
+#report_main
+{  
+    min-height: 420px;
+    width: 960px;
+    padding: 5px;
+    margin-top: 5px;
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+div.report_box
+{ 
+    width:950px; 
+    min-height:365px; 
+    background-color:#e8f3f8; 
+    padding:5px;
+    max-height: 395px;
+}
+div.tabs
+{
+    width:940px;
+	height:35px;
+	overflow:hidden;
+	padding-left:10px;
+	margin-top:10px;
+}
+div.tabs ul li
+{
+	float:left;
+	padding:0 5px;
+}
+div.tabs ul li a
+{
+	display:block;
+	width:101px;
+	height:36px;
+	overflow:hidden;
+	line-height:36px;
+	text-align:center;
+}
+#report_data
+{
+    min-height: 320px;
+}

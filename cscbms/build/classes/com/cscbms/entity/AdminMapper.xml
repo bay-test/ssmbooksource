@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.cscbms.dao.AdminDao">
+
+	<select id="findByPage" 
+		parameterType="com.cscbms.entity.page.Page" 
+		resultMap="adminMap">
+		
+		select * from admininfo
+		where adminid in (
+			select a.adminid
+			from admininfo a
+			left join adminrole ar on a.adminid=ar.adminid
+			left join roleinfo ri on ri.roleid=ar.roleid
+			left join rolemodule rm on rm.roleid=ri.roleid
+			<where>
+				<if test="roleName!=null &amp;&amp; roleName.length()>0">
+					and ri.name like '%'||#{roleName}||'%'
+				</if>
+				<if test="moduleId!=null">
+					and rm.moduleid=#{moduleId}
+				</if>
+			</where>
+		) order by adminid limit #{begin},#{end}
+	
+	</select>
+	<select id="selectRoles" 
+		parameterType="int" 
+		resultType="com.cscbms.entity.Role">
+		select * from roleinfo where roleid in (
+			select roleid from adminrole
+			where adminid=#{id}
+		)
+	</select>
+	<resultMap id="adminMap" type="com.cscbms.entity.Admin">
+		<id column="adminid" property="adminId" />
+		<collection ofType="com.cscbms.entity.Role"
+			property="roles" javaType="java.util.ArrayList"
+			column="adminid" select="selectRoles">
+		</collection>
+	</resultMap>
+	
+	<select id="findRows"
+		parameterType="com.cscbms.entity.page.Page"
+		resultType="int">
+		select count(*) from admininfo
+		where adminid in (
+			select a.adminid
+			from admininfo a
+			left join adminrole ar on a.adminid=ar.adminid
+			left join roleinfo ri on ri.roleid=ar.roleid
+			left join rolemodule rm on rm.roleid=ri.roleid
+			<where>
+				<if test="roleName!=null &amp;&amp; roleName.length()>0">
+					and ri.name like '%'||#{roleName}||'%'
+				</if>
+				<if test="moduleId!=null">
+					and rm.moduleid=#{moduleId}
+				</if>
+			</where>
+		)
+	</select>	
+	
+	<update id="updatePassword" parameterType="hashMap">
+		update admininfo set password=#{password}
+		where adminid in 
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="findById" parameterType="int" resultMap="adminMap">
+		select * from admininfo where adminid=#{id}
+	</select>
+	
+	<insert id="saveAdmin" parameterType="com.cscbms.entity.Admin">
+		<selectKey keyProperty="adminId" 
+			resultType="java.lang.Integer" 
+			order="BEFORE">
+			select adminseq.nextval from dual
+		</selectKey>
+		insert into admininfo values(
+			#{adminId},
+			#{adminCode,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{telephone,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{enrollDate,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<insert id="saveAdminRoles" parameterType="hashMap">
+		insert into adminrole values(
+			#{adminId,jdbcType=NUMERIC},
+			#{roleId,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<update id="updateAdmin" parameterType="com.cscbms.entity.Admin">
+		update admininfo set 
+			name=#{name,jdbcType=VARCHAR},
+			telephone=#{telephone,jdbcType=VARCHAR},
+			email=#{email,jdbcType=VARCHAR}
+		where adminid=#{adminId}
+	</update>
+	
+	<delete id="deleteAdminRoles" parameterType="int">
+		delete from adminrole where adminid=#{adminId}
+	</delete>
+	
+	<delete id="deleteAdmin" parameterType="int">
+		delete from admininfo where adminid=#{id}
+	</delete>	
+	
+	<select id="findByCode" 
+		parameterType="string"
+		resultType="com.cscbms.entity.Admin">
+		select * from admininfo where admincode=#{adminCode}
+	</select>
+	
+	<select id="findModulesByAdmin" 
+		parameterType="int"
+		resultType="com.cscbms.entity.Module">
+		select * from moduleinfo where moduleid in (
+			select rm.moduleid
+			from adminrole ar
+			inner join roleinfo ri on ri.roleid=ar.roleid
+			inner join rolemodule rm on rm.roleid=ri.roleid
+			where ar.adminid=#{adminId}
+		) order by moduleid
+	</select>
+	
+</mapper>

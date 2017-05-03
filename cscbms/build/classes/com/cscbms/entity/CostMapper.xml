@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.cscbms.dao.CostDao">
+
+	<select id="findAll" resultType="com.cscbms.entity.Cost">
+		select * from cost order by costid
+	</select>
+
+	<insert id="save" parameterType="com.cscbms.entity.Cost">
+	<![CDATA[
+		insert into cost values(
+			costseq.nextval,
+			#{name,jdbcType=VARCHAR},
+			#{baseDuration,jdbcType=INTEGER},
+			#{baseCost,jdbcType=DOUBLE},
+			#{unitCost,jdbcType=DOUBLE},
+			#{status,jdbcType=CHAR},
+			#{descr,jdbcType=VARCHAR},
+			#{creatTime,jdbcType=TIMESTAMP},
+			#{startTime,jdbcType=TIMESTAMP},
+			#{costType,jdbcType=CHAR}
+		)
+	]]>
+	</insert>
+	
+	<select id="findById" parameterType="int" 
+		resultType="com.cscbms.entity.Cost">
+		select * from cost where costid=#{id}
+	</select>
+	
+	<update id="update" parameterType="com.cscbms.entity.Cost">
+		<![CDATA[
+			update cost set 
+			name=#{name}, 
+			baseduration=#{baseDuration,jdbcType=NUMERIC},
+			basecost=#{baseCost,jdbcType=NUMERIC},
+			unitcost=#{unitCost,jdbcType=NUMERIC},
+			descr=#{descr,jdbcType=VARCHAR},
+			costtype=#{costType,jdbcType=CHAR}
+			where costid=#{costId}
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from cost where costid=#{id}
+	</delete>
+	
+	<select id="findByPage" 
+		parameterType="com.cscbms.entity.page.Page" 
+		resultType="com.cscbms.entity.Cost">
+		select * from cost order by costid limit #{begin},#{end}
+	</select>
+	
+	<select id="findRows" resultType="int">
+		select count(*) from cost
+	</select>
+	
+</mapper>

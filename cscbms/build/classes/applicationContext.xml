@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<util:properties id="jdbc" location="classpath:jdbc.properties"/>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" 
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="url" value="#{jdbc.url}"/>
+		<property name="driverClassName" value="#{jdbc.driver}"/>
+		<property name="username" value="#{jdbc.user}"/>
+		<property name="password" value="#{jdbc.password}"/>
+	</bean>
+	
+	<!-- 配置会话工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+      <property name="dataSource" ref="dataSource" />
+      <property name="mapperLocations" value="classpath:com/cscbms/entity/*.xml"/>
+    </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.cscbms.dao" />
+      	<property name="annotationClass" 
+           value="com.cscbms.annotation.MyBatisRepository"/>
+	</bean>
+
+	<context:component-scan base-package="com.cscbms" />
+
+	<!-- 支持MVC注解 -->
+	<mvc:annotation-driven />
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 注册拦截器 -->
+	<mvc:interceptors>
+		<!-- 登录检查拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/login/toLogin.do"/>
+			<mvc:exclude-mapping path="/login/login.do"/>
+			<mvc:exclude-mapping path="/login/createImage.do"/>
+			<bean class="com.cscbms.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+		<!-- 判断当前模块拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.cscbms.interceptor.CurrentModuleInterceptor"/>
+		</mvc:interceptor>
+		<!-- 权限检查拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/login/*"/>
+			<bean class="com.cscbms.interceptor.CheckModuleInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 开启AOP注解扫描 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- 处理异常 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+	        <props>
+	             <prop key="java.lang.Exception">main/error</prop>
+	        </props>
+	    </property>
+	</bean>
+	
+	<!-- 声明式事务 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="to*" read-only="true" />
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="txAdvice" pointcut="within(com.cscbms.controller..*)" />
+	</aop:config>
+	
+</beans>
