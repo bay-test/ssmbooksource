@@ -32,6 +32,12 @@ public class CostController extends BaseController {
 	
 	@RequestMapping("/findCost.do")
 	public String find(CostPage page, Model model) {
+		if(page.getBaseCostSort()==""){
+			page.setBaseCostSort("desc");
+		}
+		if (page.getBaseDurationSort()=="") {
+			page.setBaseDurationSort("desc");
+		}
 		page.setRows(costDao.findRows());
 		model.addAttribute("costPage", page);
 		
@@ -72,6 +78,14 @@ public class CostController extends BaseController {
 	@RequestMapping("/deleteCost.do")
 	public String delete(@RequestParam("id") int id) {
 		costDao.delete(id);
+		return "redirect:findCost.do";
+	}
+	@RequestMapping("/startFee.do")
+	public String startFee(int id) {
+		Cost cost = new Cost();
+		cost.setCostId(id);
+		cost.setStatus("1");
+		costDao.startFee(cost);
 		return "redirect:findCost.do";
 	}
 	

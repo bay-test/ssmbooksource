@@ -11,6 +11,7 @@
 		select * from roleinfo order by roleid limit #{begin},#{end}
 	]]>
 	</select>
+	
 	<select id="selectModules" 
 		parameterType="int" 
 		resultType="com.cscbms.entity.Module">
@@ -19,6 +20,7 @@
 			where roleid=#{roleId}
 		)
 	</select>
+	
 	<resultMap id="roleMap" type="com.cscbms.entity.Role">
 		<id column="roleid" property="roleId" />
 		<collection ofType="com.cscbms.entity.Module"
@@ -42,20 +44,14 @@
 		select * from roleinfo where roleid=#{id}
 	</select>
 	
-	<insert id="saveRole" parameterType="com.cscbms.entity.Role">
-		<selectKey keyProperty="roleId" 
-			resultType="java.lang.Integer" 
-			order="BEFORE">
-			select roleseq.nextval from dual
-		</selectKey>
-		insert into roleinfo values(
-			#{roleId},
+	<insert id="saveRole" parameterType="com.cscbms.entity.Role"  useGeneratedKeys="true" keyProperty="roleId">
+		insert into roleinfo(name) values(
 			#{name,jdbcType=VARCHAR}
 		)
 	</insert>
 	
 	<insert id="saveRoleModules" parameterType="hashMap">
-		insert into rolemodule values(
+		insert into rolemodule(roleId,moduleId) values(
 			#{roleId,jdbcType=NUMERIC},
 			#{moduleId,jdbcType=NUMERIC}
 		)

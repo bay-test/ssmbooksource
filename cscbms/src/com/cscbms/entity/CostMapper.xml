@@ -5,29 +5,43 @@
 <mapper namespace="com.cscbms.dao.CostDao">
 
 	<select id="findAll" resultType="com.cscbms.entity.Cost">
-		select * from cost order by costid
+		select * from cost order by costId
 	</select>
 
-	<insert id="save" parameterType="com.cscbms.entity.Cost">
-	<![CDATA[
-		insert into cost values(
-			costseq.nextval,
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="costId" parameterType="com.cscbms.entity.Cost">
+		insert into cost(
+		costId,
+		name,
+		baseDuration,
+		baseCost,
+		unitCost,
+		descr,
+		creatTime,
+		startTime,
+		costType,
+		status)
+		 values(
+		 
+			#{costId,jdbcType=VARCHAR},
 			#{name,jdbcType=VARCHAR},
-			#{baseDuration,jdbcType=INTEGER},
-			#{baseCost,jdbcType=DOUBLE},
-			#{unitCost,jdbcType=DOUBLE},
-			#{status,jdbcType=CHAR},
+			#{baseDuration,jdbcType=VARCHAR},
+			#{baseCost,jdbcType=VARCHAR},
+			#{unitCost,jdbcType=VARCHAR},
 			#{descr,jdbcType=VARCHAR},
-			#{creatTime,jdbcType=TIMESTAMP},
-			#{startTime,jdbcType=TIMESTAMP},
-			#{costType,jdbcType=CHAR}
+			#{creatTime,jdbcType=VARCHAR},
+			#{startTime,jdbcType=VARCHAR},
+			#{costType,jdbcType=VARCHAR},
+			#{status,jdbcType=TIMESTAMP}
 		)
-	]]>
 	</insert>
+	
+	
+	
 	
 	<select id="findById" parameterType="int" 
 		resultType="com.cscbms.entity.Cost">
-		select * from cost where costid=#{id}
+		select * from cost where costId=#{costId}
 	</select>
 	
 	<update id="update" parameterType="com.cscbms.entity.Cost">
@@ -39,18 +53,26 @@
 			unitcost=#{unitCost,jdbcType=NUMERIC},
 			descr=#{descr,jdbcType=VARCHAR},
 			costtype=#{costType,jdbcType=CHAR}
-			where costid=#{costId}
+			where costId=#{costId}
 		]]>
 	</update>
 	
 	<delete id="delete" parameterType="int">
-		delete from cost where costid=#{id}
+		delete from cost where costId=#{costId}
 	</delete>
 	
+	<update id="startFee" parameterType="com.cscbms.entity.Cost" >
+			update cost set status=#{status},startTime=NOW()
+			where costId=#{costId}
+	</update>
 	<select id="findByPage" 
 		parameterType="com.cscbms.entity.page.Page" 
 		resultType="com.cscbms.entity.Cost">
-		select * from cost order by costid limit #{begin},#{end}
+		select * from cost
+		<if test="baseDurationSort!='' or baseCostSort!=''">
+			order by baseDuration ${baseDurationSort},baseCost ${baseCostSort}
+		</if>
+		limit #{begin},#{end}
 	</select>
 	
 	<select id="findRows" resultType="int">

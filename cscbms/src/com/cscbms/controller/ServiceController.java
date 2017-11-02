@@ -39,7 +39,7 @@ public class ServiceController extends BaseController {
 	@RequestMapping("/findService.do")
 	public String find(ServicePage page, Model model) {
 		page.setRows(serviceDao.findRows(page));
-		model.addAttribute("servicePage", page);
+		model.addAttribute("servicePagea", page);
 		
 		List<Map<String, Object>> list = 
 				serviceDao.findByPage(page);
@@ -126,7 +126,9 @@ public class ServiceController extends BaseController {
 	@RequestMapping("/toAddService.do")
 	public String toAdd(Model model) {
 		List<Cost> list = costDao.findAll();
+		List<Account> accounts = accountDao.findAll();
 		model.addAttribute("costs", list);
+		model.addAttribute("accounts", accounts);
 		return "service/addService";
 	}
 	
@@ -140,7 +142,7 @@ public class ServiceController extends BaseController {
 	public String add(Service service) {
 		service.setStatus('0');
 		service.setCreateDate(
-			new Timestamp(System.currentTimeMillis()));
+		new Timestamp(System.currentTimeMillis()));
 		serviceDao.save(service);
 		return "redirect:findService.do";
 	}

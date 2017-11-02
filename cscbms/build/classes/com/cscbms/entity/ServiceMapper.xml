@@ -8,8 +8,8 @@
 		parameterType="com.cscbms.entity.page.Page"
 		resultType="com.cscbms.vo.ServiceVo">
 		select  s.*,a.realName,a.idcardNo,c.name costName,c.descr from service s
-		inner join account a on a.accountid=s.accountid
-		inner join cost c on c.costid=s.costid
+		inner join account a on a.accountId=s.accountId
+		inner join cost c on c.costId=s.costId
 		<where>
 			<if test="serverUserName!=null &amp;&amp; serverUserName.length()>0">
 				and s.serverUserName=#{serverUserName}
@@ -24,7 +24,7 @@
 				and s.status=#{status}
 			</if>
 		</where>
-				order by s.serviceid limit #{begin},#{end}
+				order by s.serviceId limit #{begin},#{end}
 	</select>
 	
 	<select id="findRows"
@@ -33,8 +33,8 @@
 		select 
 			count(*)
 		from service s
-		inner join account a on a.accountid=s.accountid
-		inner join cost c on c.costid=s.costid
+		inner join account a on a.accountId=s.accountId
+		inner join cost c on c.costId=s.costId
 		<where>
 			<if test="serverUserName!=null &amp;&amp; serverUserName.length()>0">
 				and s.serverUserName=#{serverUserName}
@@ -56,49 +56,57 @@
 		update service set status=#{status},
 		<choose>
 			<when test="status=='0'">
-				pausedate=null
+				pauseDate=null
 			</when>
 			<when test="status=='1'">
-				pausedate=NOW()
+				pauseDate=NOW()
 			</when>
 			<otherwise>
-				closedate=NOW()
+				closeDate=NOW()
 			</otherwise>
 		</choose>
-		where serviceid=#{serviceId}
+		where serviceId=#{serviceId}
 	</update>	
 	
 	<update id="pauseByAccount" parameterType="int">
-		update service set status='1',pausedate=NOW()
-		where accountid=#{accountId}
+		update service set status='1',pauseDate=NOW()
+		where accountId=#{accountId}
 	</update>
 	
 	<update id="deleteByAccount" parameterType="int">
-		update service set status='2',closedate=NOW()
-		where accountid=#{accountId}
+		update service set status='2',closeDate=NOW()
+		where accountId=#{accountId}
 	</update>
 	<update id="update" parameterType="com.cscbms.entity.Service">
 		update service set costId=#{costId}
-		where serviceid=#{serviceId}
+		where serviceId=#{serviceId}
 	</update>
 	
 	<select id="findById" 
 		parameterType="int" 
 		resultType="com.cscbms.entity.Service">
-		select * from service where serviceid=#{id}
+		select * from service where serviceId=#{id}
 	</select>
 	
-	<insert id="save" parameterType="com.cscbms.entity.Service">
-		insert into service(accountId,hostIp,serverUserName,password,createDate,createDate,closeDate,costId) values(
-			values (#{accountId},
-			#{hostIp,jdbcType=VARCHAR},
-			#{serverUserName,jdbcType=VARCHAR},
-			#{password,jdbcType=VARCHAR},
-			#{status,jdbcType=VARCHAR},
-			#{createDate,jdbcType=TIMESTAMP},
-			#{pauseDate,jdbcType=TIMESTAMP},
-			#{closeDate,jdbcType=TIMESTAMP},
-			#{costId,jdbcType=NUMERIC}
+	<insert id="save" parameterType="com.cscbms.entity.Service" useGeneratedKeys="true" keyProperty="serviceId">
+		INSERT INTO service (
+		accountId,
+		hostIp,
+		serverUserName,
+		password,
+		status,
+		createDate,
+		costId
+		)
+		VALUES
+		(
+		#{accountId},
+		#{hostIp,jdbcType=VARCHAR},
+		#{serverUserName,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{costId,jdbcType=NUMERIC}
 		)
 	</insert>
 	

@@ -26,7 +26,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+             <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>              
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->

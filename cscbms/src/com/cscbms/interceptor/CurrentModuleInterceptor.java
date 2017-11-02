@@ -36,6 +36,10 @@ public class CurrentModuleInterceptor implements HandlerInterceptor {
 			currentModule = 4;
 		} else if (url.contains("service")) {
 			currentModule = 5;
+		} else if (url.contains("userInfo")) {
+			currentModule = 8;
+		} else if (url.contains("modifyPwd")) {
+			currentModule = 9;
 		}
 
 		request.getSession().setAttribute(

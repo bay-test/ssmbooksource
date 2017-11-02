@@ -38,7 +38,6 @@ public class Account {
 	public void setRecommenderAccountId(Integer recommenderAccountId) {
 		this.recommenderAccountId = recommenderAccountId;
 	}
-	
 	public String getLoginUserName() {
 		return loginUserName;
 	}
@@ -153,4 +152,5 @@ public class Account {
 	public void setRecommenderIdcardNo(String recommenderIdcardNo) {
 		this.recommenderIdcardNo = recommenderIdcardNo;
 	}
+	
 }

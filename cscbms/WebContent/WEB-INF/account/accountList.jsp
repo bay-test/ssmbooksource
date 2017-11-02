@@ -8,19 +8,20 @@
         <title>CSCBMS</title>
         <link type="text/css" rel="stylesheet" media="all" href="../styles/global.css" />
         <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css" /> 
+        <script language="javascript" type="text/javascript" src="../js/jquery-1.11.1.js"></script>
         <script language="javascript" type="text/javascript">
             //开通
             function start_account(id) {
             	var r = window.confirm("确定要开通此账务账号吗？");
             	if(r) {
-	            	window.location.href = "startAccount.do?account_id="+id;
+	            	window.location.href = "startAccount.do?accountId="+id;
             	}
             }
             //暂停
             function pause_account(id) {
             	var r = window.confirm("确定要暂停此账务账号吗？");
             	if(r) {
-	            	window.location.href = "pauseAccount.do?account_id="+id;
+	            	window.location.href = "pauseAccount.do?accountId="+id;
             	}
             }
             //删除
@@ -36,7 +37,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+             <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>             
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -96,33 +97,39 @@
                         <th class="width150">上次登录时间</th>                                                        
                         <th class="width200"></th>
                     </tr>
-                    <c:forEach items="${accounts }" var="acc">
+                    <c:forEach items="${accountList }" var="a">
 	                    <tr>
-	                        <td>${acc.accountId }</td>
-	                        <td><a href="account_detail.html">${acc.realName }</a></td>
-	                        <td>${acc.idcardNo }</td>
-	                        <td>${acc.loginUserName }</td>
-	                        <td>
-	                     	    <c:choose>
-	                        		<c:when test="${acc.status eq 0}">开通</c:when>
-	       	                        <c:when test="${acc.status eq 1}">暂停</c:when>
-	                        		<c:otherwise>删除</c:otherwise>
+	                        <td>${a.accountId }</td>
+	                        <td>${a.realName }</td>
+	                        <td>${a.idcardNo }</td>
+	                        <td>${a.loginUserName }</td>
+	                        <td> 
+	                     	   <c:choose>
+	                        		<c:when test="${a.status == 0 }">
+	                        			开通
+	                        		</c:when>
+	                        		<c:when test="${a.status == 1 }">
+	                        			暂停
+	                        		</c:when>
+	                        		<c:otherwise>
+	                        			删除
+	                        		</c:otherwise>
 	                        	</c:choose>
 	                        
 	                        </td>
-	                        <td><fmt:formatDate value="${acc.createDate }" pattern="yyyy-MM-dd"/></td>
-	                        <td><fmt:formatDate value="${acc.lastLoginTime }" pattern="yyyy-MM-dd"/></td>                            
+	                        <td><fmt:formatDate value="${a.createDate }" pattern="yyyy-MM-dd"/></td>
+	                        <td><fmt:formatDate value="${a.lastLoginTime }" pattern="yyyy-MM-dd"/></td>                            
 	                        <td class="td_modi">
 	                        	<c:choose>
-	                        		<c:when test="${acc.status==0 }">
-	                        			<input type="button" value="暂停" class="btn_pause" onclick="pause_account(${acc.accountId });" />
-			                            <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateAccount.do?accountId=${acc.accountId }';" />
-			                            <input type="button" value="删除" class="btn_delete" onclick="delete_account(${acc.accountId });" />
+	                        		<c:when test="${a.status==0 }">
+	                        			<input type="button" value="暂停" class="btn_pause" onclick="pause_account(${a.accountId });" />
+			                            <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateAccount.do?accountId=${a.accountId }';" />
+			                            <input type="button" value="删除" class="btn_delete" onclick="delete_account(${a.accountId });" />
 	                        		</c:when>
-	                        		<c:when test="${acc.status==1 }">
-	                        			<input type="button" value="开通" class="btn_start" onclick="start_account(${acc.accountId });" />
-			                            <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateAccount.do?account_id=${acc.accountId }';" />
-			                            <input type="button" value="删除" class="btn_delete" onclick="delete_account(${acc.accountId });" />
+	                        		<c:when test="${a.status==1 }">
+	                        			<input type="button" value="开通" class="btn_start" onclick="start_account(${a.accountId });" />
+			                            <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateAccount.do?account_id=${a.accountId }';" />
+			                            <input type="button" value="删除" class="btn_delete" onclick="delete_account(${a.accountId });" />
 	                        		</c:when>
 	                        		<c:otherwise>
 	                        			

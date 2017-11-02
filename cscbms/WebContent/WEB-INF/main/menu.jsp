@@ -62,6 +62,21 @@
 			</c:choose>
 		</c:if>
 	</c:forEach>
-	<li><a href="user/user_info.html" class="information_off"></a></li>
-	<li><a href="user/user_modi_pwd.html" class="password_off"></a></li>
+	<c:choose>
+				<c:when test="${currentModule==8 }">
+					<li><a href="${pageContext.request.contextPath }/userInfo/touserInfo.do" class="information_on"></a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="${pageContext.request.contextPath }/userInfo/touserInfo.do" class="information_off"></a></li>
+				</c:otherwise>
+			</c:choose>
+ 
+			<c:choose>
+				<c:when test="${currentModule==9 }">
+					<li><a href="${pageContext.request.contextPath }/modifyPwd/toModifyPwd.do" class="password_on"></a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="${pageContext.request.contextPath }/modifyPwd/toModifyPwd.do" class="password_off"></a></li>
+				</c:otherwise>
+			</c:choose>
 </ul>

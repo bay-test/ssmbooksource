@@ -63,19 +63,19 @@
         <div class="login_box">
         	<form action="login.do" method="post" id="myform">
 	            <table>
+	             
+	                
 	                <tr>
 	                    <td class="login_info">账号：</td>
 	                    <td colspan="2">
-	                    	<input type="text" name="adminCode" id="admin_code" class="width150" onfocus="set_msg('admin_code_msg','30长度的字母、数字和下划线');"/>
+	                    	<input type="text" value="admin" name="adminCode" id="admin_code" class="width150" onfocus="set_msg('admin_code_msg','30长度的字母、数字和下划线');"/>
 	                    </td>
-	                    <td class="login_error_info"><span class="required" id="admin_code_msg">30长度的字母、数字和下划线</span></td>
 	                </tr>
 	                <tr>
 	                    <td class="login_info">密码：</td>
 	                    <td colspan="2">
-	                    	<input type="password" name="password" id="password" class="width150" onfocus="set_msg('password_msg','30长度的字母、数字和下划线');"/>
+	                    	<input type="password" value="admin" name="password" id="password" class="width150" onfocus="set_msg('password_msg','30长度的字母、数字和下划线');"/>
 	                    </td>
-	                    <td><span class="required" id="password_msg">30长度的字母、数字和下划线</span></td>
 	                </tr>
 	                <tr>
 	                    <td class="login_info">验证码：</td>
@@ -83,6 +83,7 @@
 	                    <td><img src="createImage.do" alt="验证码" title="点击更换" id="code_image" onclick="change();"/></td>  
 	                    <td><span class="required" id="code_msg"></span></td>
 	                </tr>
+	               
 	                <tr>
 	                    <td></td>
 	                    <td class="login_button" colspan="2">

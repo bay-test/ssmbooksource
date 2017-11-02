@@ -9,36 +9,36 @@
 		resultMap="adminMap">
 		
 		select * from admininfo
-		where adminid in (
-			select a.adminid
+		where adminId in (
+			select a.adminId
 			from admininfo a
-			left join adminrole ar on a.adminid=ar.adminid
-			left join roleinfo ri on ri.roleid=ar.roleid
-			left join rolemodule rm on rm.roleid=ri.roleid
+			left join adminrole ar on a.adminId=ar.adminId
+			left join roleinfo ri on ri.roleId=ar.roleId
+			left join rolemodule rm on rm.roleId=ri.roleId
 			<where>
 				<if test="roleName!=null &amp;&amp; roleName.length()>0">
 					and ri.name like '%'||#{roleName}||'%'
 				</if>
 				<if test="moduleId!=null">
-					and rm.moduleid=#{moduleId}
+					and rm.moduleId=#{moduleId}
 				</if>
 			</where>
-		) order by adminid limit #{begin},#{end}
+		) order by adminId limit #{begin},#{end}
 	
 	</select>
 	<select id="selectRoles" 
 		parameterType="int" 
 		resultType="com.cscbms.entity.Role">
-		select * from roleinfo where roleid in (
-			select roleid from adminrole
-			where adminid=#{id}
+		select * from roleinfo where roleId in (
+			select roleId from adminrole
+			where adminId=#{id}
 		)
 	</select>
 	<resultMap id="adminMap" type="com.cscbms.entity.Admin">
-		<id column="adminid" property="adminId" />
+		<id column="adminId" property="adminId" />
 		<collection ofType="com.cscbms.entity.Role"
 			property="roles" javaType="java.util.ArrayList"
-			column="adminid" select="selectRoles">
+			column="adminId" select="selectRoles">
 		</collection>
 	</resultMap>
 	
@@ -46,18 +46,18 @@
 		parameterType="com.cscbms.entity.page.Page"
 		resultType="int">
 		select count(*) from admininfo
-		where adminid in (
-			select a.adminid
+		where adminId in (
+			select a.adminId
 			from admininfo a
-			left join adminrole ar on a.adminid=ar.adminid
-			left join roleinfo ri on ri.roleid=ar.roleid
-			left join rolemodule rm on rm.roleid=ri.roleid
+			left join adminrole ar on a.adminId=ar.adminId
+			left join roleinfo ri on ri.roleId=ar.roleId
+			left join rolemodule rm on rm.roleId=ri.roleId
 			<where>
 				<if test="roleName!=null &amp;&amp; roleName.length()>0">
 					and ri.name like '%'||#{roleName}||'%'
 				</if>
 				<if test="moduleId!=null">
-					and rm.moduleid=#{moduleId}
+					and rm.moduleId=#{moduleId}
 				</if>
 			</where>
 		)
@@ -65,24 +65,19 @@
 	
 	<update id="updatePassword" parameterType="hashMap">
 		update admininfo set password=#{password}
-		where adminid in 
+		where 
+		adminId in 
 		<foreach collection="ids" open="(" close=")" separator="," item="id">
 			#{id}
 		</foreach>
 	</update>
 	
 	<select id="findById" parameterType="int" resultMap="adminMap">
-		select * from admininfo where adminid=#{id}
+		select * from admininfo where adminId=#{id}
 	</select>
 	
-	<insert id="saveAdmin" parameterType="com.cscbms.entity.Admin">
-		<selectKey keyProperty="adminId" 
-			resultType="java.lang.Integer" 
-			order="BEFORE">
-			select adminseq.nextval from dual
-		</selectKey>
-		insert into admininfo values(
-			#{adminId},
+	<insert id="saveAdmin" useGeneratedKeys="true" keyProperty="adminId" parameterType="com.cscbms.entity.Admin">
+		insert into admininfo(adminCode,password,name,telephone,email,enrollDate) values(
 			#{adminCode,jdbcType=VARCHAR},
 			#{password,jdbcType=VARCHAR},
 			#{name,jdbcType=VARCHAR},
@@ -93,7 +88,7 @@
 	</insert>
 	
 	<insert id="saveAdminRoles" parameterType="hashMap">
-		insert into adminrole values(
+		insert into adminrole(adminId,roleId) values(
 			#{adminId,jdbcType=NUMERIC},
 			#{roleId,jdbcType=NUMERIC}
 		)
@@ -103,34 +98,52 @@
 		update admininfo set 
 			name=#{name,jdbcType=VARCHAR},
 			telephone=#{telephone,jdbcType=VARCHAR},
+			adminCode=#{adminCode,jdbcType=VARCHAR},
 			email=#{email,jdbcType=VARCHAR}
-		where adminid=#{adminId}
+		where adminId=#{adminId}
 	</update>
 	
 	<delete id="deleteAdminRoles" parameterType="int">
-		delete from adminrole where adminid=#{adminId}
+		delete from adminrole where adminId=#{adminId}
 	</delete>
 	
 	<delete id="deleteAdmin" parameterType="int">
-		delete from admininfo where adminid=#{id}
+		delete from admininfo where adminId=#{id}
 	</delete>	
 	
 	<select id="findByCode" 
 		parameterType="string"
 		resultType="com.cscbms.entity.Admin">
-		select * from admininfo where admincode=#{adminCode}
+		select * from admininfo where adminCode=#{adminCode}
 	</select>
+	
+	<update id="updateByPassword" parameterType="com.cscbms.entity.Admin">
+		update admininfo set 
+			password=#{password,jdbcType=VARCHAR}
+		where adminId=#{adminId}
+	</update>
 	
 	<select id="findModulesByAdmin" 
 		parameterType="int"
 		resultType="com.cscbms.entity.Module">
-		select * from moduleinfo where moduleid in (
-			select rm.moduleid
+		select * from moduleinfo where moduleId in (
+			select rm.moduleId
 			from adminrole ar
-			inner join roleinfo ri on ri.roleid=ar.roleid
-			inner join rolemodule rm on rm.roleid=ri.roleid
-			where ar.adminid=#{adminId}
-		) order by moduleid
+			inner join roleinfo ri on ri.roleId=ar.roleId
+			inner join rolemodule rm on rm.roleId=ri.roleId
+			where ar.adminId=#{adminId}
+		) order by moduleId
 	</select>
 	
+	<select id="findByList" parameterType="com.cscbms.vo.AdminVo" resultType="com.cscbms.vo.AdminVo">
+		select * from admininfo 
+		<where>
+		<if test="adminCode!=null">
+			and adminCode=#{adminCode}
+		</if>
+		<if test="password!=null">
+			and password=#{password}
+		</if>
+</where>
+	</select>
 </mapper>

@@ -37,29 +37,31 @@
 				and realName=#{realName}
 			</if>
 			<if test="loginUserName!=null &amp;&amp; loginUserName.length()>0">
-				and loginname=#{loginName}
+				and loginUserName=#{loginUserName}
 			</if>
 			<if test='status!=null &amp;&amp; !status.equals("-1")'>
 				and status=#{status}
 			</if>
 		</where>
 	</select>
-
+	<select id="findAll" resultType="com.cscbms.entity.Account">
+		select * from account 
+	</select>
 	<update id="updateStatus" 
 		parameterType="com.cscbms.entity.Account">
 		update account set status=#{status},
 		<choose>
 			<when test="status==0">
-				pausedate=null
+				pauseDate=null
 			</when>
 			<when test="status==1">
-				pausedate=NOW()
+				pauseDate=NOW()
 			</when>
 			<otherwise>
-				closedate=NOW()
+				closeDate=NOW()
 			</otherwise>
 		</choose>
-		where accountid=#{accountId}
+		where accountId=#{accountId}
 	</update>
 
 	<select id="findById" 
@@ -85,15 +87,30 @@
 			qq=#{qq,jdbcType=VARCHAR}
 		where accountid=#{accountId}
 	]]>
-	</update>
-	
-	<insert id="save" 
-		parameterType="com.cscbms.entity.Account">
-	<![CDATA[
-		insert into account(recommenderAccountId,loginUserName,loginPassword,
-		status,createDate,pauseDate,closeDate,realName,idcardNo,birthDate,
-		gender,occupation,telephone,email,mailAddress,zipCode,qq,lastLoginTime,
-		lastLoginIp) values(
+	</update> 
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="accountId" parameterType="com.cscbms.entity.Account">
+		insert into account(
+		recommenderAccountId,
+		loginUserName,
+		loginPassword,
+		status,
+		createDate,
+		pauseDate,
+		closeDate,
+		realName,
+		idcardNo,
+		birthDate,
+		gender,
+		occupation,
+		telephone,
+		email,
+		mailAddress,
+		zipCode,
+		qq,
+		lastLoginTime,
+		lastLoginIp) 
+		 values(
 			#{recommenderAccountId,jdbcType=NUMERIC},
 			#{loginUserName,jdbcType=VARCHAR},
 			#{loginPassword,jdbcType=VARCHAR},
@@ -114,7 +131,7 @@
 			#{lastLoginTime,jdbcType=TIMESTAMP},
 			#{lastLoginIp,jdbcType=VARCHAR}
 		)
-	]]>
+		
 	</insert>
 	
 	<select id="findByidcardNo" 
@@ -122,5 +139,7 @@
 		resultType="com.cscbms.entity.Account">
 		select * from account where idcardNo=#{idcardNo}
 	</select>	
+	
+
 	
 </mapper>

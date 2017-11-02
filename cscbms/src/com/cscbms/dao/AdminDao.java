@@ -7,6 +7,7 @@ import com.cscbms.annotation.MyBatisRepository;
 import com.cscbms.entity.Admin;
 import com.cscbms.entity.Module;
 import com.cscbms.entity.page.Page;
+import com.cscbms.vo.AdminVo;
 
 @MyBatisRepository
 public interface AdminDao {
@@ -32,5 +33,8 @@ public interface AdminDao {
 	Admin findByCode(String adminCode);
 	
 	List<Module> findModulesByAdmin(int adminId);
-
+	
+	void updateByPassword(Admin admin );
+	
+	List<AdminVo> findByList(AdminVo admin);
 }

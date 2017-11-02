@@ -65,7 +65,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+             <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>             
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -100,8 +100,11 @@
                 </div>
                 <div class="text_info clearfix"><span>账务账号：</span></div>
                 <div class="input_info">
-                	<input type="text" name="accountId" id="accountId"/>
-                    <input type="text" readonly="readonly" class="readonly" id="login_name"/>
+                	<select name="accountId">
+                        <c:forEach items="${accounts }" var="a">
+                        	<option value="${a.accountId }">${a.loginUserName }</option>
+                        </c:forEach>
+                    </select>   
                     <div class="validate_msg_long"></div>
                 </div>
                 <div class="text_info clearfix"><span>资费类型：</span></div>

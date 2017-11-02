@@ -186,7 +186,7 @@ form.main_form
 /*正文：查询条件部分*/
 div.search_add
 {
-    width: 910px;
+    width: 915px;
     height: 30px;
     text-align: right;
     margin-top: 3px;
@@ -363,11 +363,11 @@ div.error_msg
 }
 div.validate_msg_long
 {
-    width: 390px;
+    width: 250px;
 }
 div.validate_msg_medium
 {
-    width: 340px;
+    width: 300px;
 }
 div.validate_msg_short
 {

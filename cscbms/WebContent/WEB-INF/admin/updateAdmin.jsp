@@ -26,7 +26,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+             <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>            
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -51,12 +51,16 @@
             <div id="save_result_info" class="save_success">保存成功！</div>
             <form action="updateAdmin.do" method="post" class="main_form">
             		<input type="hidden" name="adminId" value="${admin.adminId }"/>
+            		
                     <div class="text_info clearfix"><span>姓名：</span></div>
                     <div class="input_info">
-                        <input type="text" name="name" value="${admin.name }" />
+                        <input type="text"  name="name" value="${admin.name }" />
                         <span class="required">*</span>
                         <div class="validate_msg_long error_msg">20长度以内的汉字、字母、数字的组合</div>
                     </div>
+                    
+                   
+                
                     <div class="text_info clearfix"><span>管理员账号：</span></div>
                     <div class="input_info"><input type="text" readonly="readonly" class="readonly" name="adminCode" value="${admin.adminCode }"  /></div>
                     <div class="text_info clearfix"><span>电话：</span></div>

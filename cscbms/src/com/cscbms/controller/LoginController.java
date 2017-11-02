@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,8 @@ public class LoginController extends BaseController {
 	private AdminDao adminDao;
 	
 	@RequestMapping("/toLogin.do")
-	public String toLogin() {
+	public String toLogin(HttpServletRequest request) {
+		request.getSession().invalidate();
 		return "main/login";
 	}
 	
@@ -47,7 +49,10 @@ public class LoginController extends BaseController {
 	public String nopower() {
 		return "main/nopower";
 	}
-	
+	@RequestMapping("/error.do")
+	public String error() {
+		return "main/error";
+	}
 	@RequestMapping("/login.do")
 	@ResponseBody
 	public Map<String, Object> login(

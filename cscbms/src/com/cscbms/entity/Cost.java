@@ -14,6 +14,7 @@ public class Cost {
 	private Timestamp creatTime;
 	private Timestamp startTime;
 	private String costType;
+	
 	public Integer getCostId() {
 		return costId;
 	}

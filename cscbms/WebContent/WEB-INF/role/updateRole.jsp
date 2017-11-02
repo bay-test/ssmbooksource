@@ -9,6 +9,33 @@
         <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css" />
         <script language="javascript" type="text/javascript" src="../js/jquery-1.11.1.js"></script>
         <script language="javascript" type="text/javascript">
+        var nameFlag;
+        function check_name() {
+    		nameFlag = null;
+    		var name = $("#name").val();
+    		var roleName = $("#roleName").val()
+    		var reg = /^[\u4E00-\u9FA5A-Za-z0-9]{1,20}$/;
+    		if(!reg.test(name)) {
+    			$("#name_msg").text("不能为空，且为20长度的字母、数字和汉字的组合").addClass("error_msg");
+    			nameFlag = false;
+    			return;
+    		}
+    		if(roleName != name){
+    			$.post(
+    	    			"checkRoleName.do",
+    	    			{"name":name},
+    	    			function(data) {
+    	    				if(data) {
+    	    					$("#name_msg").text("有效的名称.").removeClass("error_msg");
+    	    					nameFlag = true;
+    	    				} else {
+    	    					$("#name_msg").text("该名称已存在.").addClass("error_msg");
+    	    					nameFlag = false;
+    	    				}
+    	    			}
+    	    		);
+    		}	
+        }
         	function check_module() {
         		var moduleIds = $(":checkbox[name='moduleIds']:checked");
         		if(moduleIds.length == 0) {
@@ -35,7 +62,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+            <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>             
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -61,12 +88,13 @@
             <div id="save_result_info" class="save_success">保存成功！</div>
             <form action="updateRole.do" method="post" class="main_form">
             	<input type="hidden" name="roleId" value="${role.roleId }"/>
-            
+            	<input type="hidden" id="roleName" value="${role.name }"/>
                 <div class="text_info clearfix"><span>角色名称：</span></div>
                 <div class="input_info">
-                    <input type="text" class="width200" name="name" value="${role.name }"/>
+                
+                    <input type="text" class="width200" name="name"  id="name" value="${role.name }"  onblur="check_name();"/>
                     <span class="required">*</span>
-                    <div class="validate_msg_medium error_msg">不能为空，且为20长度的字母、数字和汉字的组合</div>
+                    <div class="validate_msg_medium" id="name_msg">不能为空，且为20长度的字母、数字和汉字的组合</div>  
                 </div>                    
                 <div class="text_info clearfix"><span>设置权限：</span></div>
                 <div class="input_info_high">

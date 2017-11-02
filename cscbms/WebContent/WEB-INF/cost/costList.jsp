@@ -34,9 +34,11 @@
             }
 
             //启用
-            function startFee() {
+            function startFee(id) {
                 var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
-                document.getElementById("operate_result_info").style.display = "block";
+                if(r) {
+               		window.location.href = "startFee.do?id="+id;
+               	}
             }
             //删除
             function deleteFee(id) {
@@ -51,7 +53,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+            <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>             
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -109,7 +111,7 @@
                         <c:forEach items="${costs }" var="cost">
 	                        <tr>
 	                            <td>${cost.costId }</td>
-	                            <td><a href="fee_detail.html">${cost.name }</a></td>
+	                            <td>${cost.name }</a></td>
 	                            <td>${cost.baseDuration }</td>
 	                            <td>${cost.baseCost }</td>
 	                            <td>${cost.unitCost }</td>
@@ -117,14 +119,20 @@
 	                            <td><fmt:formatDate value="${cost.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                            <td>
 	                            	<c:choose>
-	                            		<c:when test="${cost.status==0 }">开通</c:when>
+	                            		<c:when test="${cost.status==1 }">开通</c:when>
 	                            		<c:otherwise>暂停</c:otherwise>
 	                            	</c:choose>
 	                            </td>
-	                            <td>                                
-	                                <input type="button" value="启用" class="btn_start" onclick="startFee();" />
-	                                <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateCost.do?id=${cost.costId}';" />
-	                                <input type="button" value="删除" class="btn_delete" onclick="deleteFee(${cost.costId});" />
+	                            <td>
+	                            	<c:choose>
+	                            		<c:when test="${cost.status==1 }"></c:when>
+	                            		<c:otherwise>
+		                            		<input type="button" value="启用" class="btn_start" onclick="startFee(${cost.costId});" />
+			                                <input type="button" value="修改" class="btn_modify" onclick="location.href='toUpdateCost.do?id=${cost.costId}';" />
+			                                <input type="button" value="删除" class="btn_delete" onclick="deleteFee(${cost.costId});" />
+			                             </c:otherwise>
+	                            	</c:choose>                                
+	                                
 	                            </td>
 	                        </tr>
                         </c:forEach>

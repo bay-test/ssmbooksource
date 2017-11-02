@@ -32,7 +32,7 @@ public class AccountController extends BaseController {
 		model.addAttribute("accountPage", page);
 		
 		List<Account> list = accountDao.findByPage(page);
-		model.addAttribute("accounts", list);
+		model.addAttribute("accountList", list);
 		
 		return "account/accountList";
 	}
@@ -45,7 +45,7 @@ public class AccountController extends BaseController {
 		//暂停账务账号
 		Account a = new Account();
 		a.setAccountId(id);
-		a.setStatus('0');
+		a.setStatus(0);
 		accountDao.updateStatus(a);
 		return "redirect:findAccount.do";
 	}
@@ -55,7 +55,7 @@ public class AccountController extends BaseController {
 		//暂停账务账号
 		Account a = new Account();
 		a.setAccountId(id);
-		a.setStatus('1');
+		a.setStatus(1);
 		accountDao.updateStatus(a);
 		
 		//暂停其下属的业务账号
@@ -69,7 +69,7 @@ public class AccountController extends BaseController {
 		//暂停账务账号
 		Account a = new Account();
 		a.setAccountId(id);
-		a.setStatus('2');
+		a.setStatus(2);
 		accountDao.updateStatus(a);
 		
 		//删除其下属的业务账号
@@ -98,7 +98,7 @@ public class AccountController extends BaseController {
 	
 	@RequestMapping("/addAccount.do")
 	public String add(Account account) {
-		account.setStatus('0');
+		account.setStatus(0);
 		account.setCreateDate(
 			new Timestamp(System.currentTimeMillis()));
 		accountDao.save(account);

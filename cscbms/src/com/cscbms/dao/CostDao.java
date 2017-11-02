@@ -22,5 +22,7 @@ public interface CostDao {
 	List<Cost> findByPage(Page page);
 	
 	int findRows();
+	
+	void startFee(Cost cost);
 
 }

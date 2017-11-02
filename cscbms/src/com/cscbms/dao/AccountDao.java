@@ -11,6 +11,8 @@ public interface AccountDao {
 
 	List<Account> findByPage(Page page);
 
+	List<Account> findAll();
+	
 	int findRows(Page page);
 	
 	void updateStatus(Account account);

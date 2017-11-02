@@ -103,7 +103,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+              <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>              
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -129,7 +129,7 @@
             	<input type="hidden" name="currentPage" value="1"/>
                 <!--查询-->
                 <div class="search_add">                        
-                    <div>云服务器账号：<input type="text" name="serverUserName" value="${servicePage.serverUserName }" class="width100 text_search" /></div>                            
+                    <div>姓名：<input type="text" name="serverUserName" value="${servicePage.serverUserName }" class="width100 text_search" /></div>                            
                     <div>服务器 IP：<input type="text" name="hostIp" value="${servicePage.hostIp }" class="width100 text_search" /></div>
                     <div>身份证：<input type="text" name="idcardNo" value="${servicePage.idcardNo }" class="text_search" /></div>
                     <div>状态：
@@ -164,7 +164,7 @@
                     </tr>
                     <c:forEach items="${services }" var="service">
 	                    <tr>
-	                        <td><a href="service_detail.html" title="查看明细">${service.serviceId }</a></td>
+	                        <td>${service.serviceId }</td>
 	                        <td>${service.accountId }</td>
 	                        <td>${service.idcardNo }</td>
 	                        <td>${service.realName }</td>

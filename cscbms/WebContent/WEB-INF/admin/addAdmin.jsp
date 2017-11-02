@@ -26,7 +26,7 @@
         <!--Logo区域开始-->
         <div id="header">
             <img src="../images/logo.jpg" alt="logo" class="left"/>
-            <a href="#">[退出]</a>            
+             <a href="<%=request.getContextPath() %>/login/toLogin.do">[退出]</a>           
         </div>
         <!--Logo区域结束-->
         <!--导航区域开始-->
@@ -58,7 +58,7 @@
                     </div>
                     <div class="text_info clearfix"><span>管理员账号：</span></div>
                     <div class="input_info">
-                        <input type="text" name="admin_code"/>
+                        <input type="text" name="adminCode"/>
                         <span class="required">*</span>
                         <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
                     </div>
@@ -66,25 +66,25 @@
                     <div class="input_info">
                         <input type="password" name="password"/>
                         <span class="required">*</span>
-                        <div class="validate_msg_long error_msg">30长度以内的字母、数字和下划线的组合</div>
+                        <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
                     </div>
                     <div class="text_info clearfix"><span>重复密码：</span></div>
                     <div class="input_info">
                         <input type="password"  />
                         <span class="required">*</span>
-                        <div class="validate_msg_long error_msg">两次密码必须相同</div>
+                        <div class="validate_msg_long">两次密码必须相同</div>
                     </div>      
                     <div class="text_info clearfix"><span>电话：</span></div>
                     <div class="input_info">
                         <input type="text" class="width200" name="telephone"/>
                         <span class="required">*</span>
-                        <div class="validate_msg_medium error_msg">正确的电话号码格式：手机或固话</div>
+                        <div class="validate_msg_medium">正确的电话号码格式：手机或固话</div>
                     </div>
                     <div class="text_info clearfix"><span>Email：</span></div>
                     <div class="input_info">
                         <input type="text" class="width200" name="email"/>
                         <span class="required">*</span>
-                        <div class="validate_msg_medium error_msg">50长度以内，正确的 email 格式</div>
+                        <div class="validate_msg_medium">50长度以内，正确的 email 格式</div>
                     </div>
                     <div class="text_info clearfix"><span>角色：</span></div>
                     <div class="input_info_high">
@@ -96,7 +96,7 @@
                             </ul>
                         </div>
                         <span class="required">*</span>
-                        <div class="validate_msg_tiny error_msg">至少选择一个</div>
+                        <div class="validate_msg_tiny">至少选择一个</div>
                     </div>
                     <div class="button_info clearfix">
                         <input type="submit" value="保存" class="btn_save" />

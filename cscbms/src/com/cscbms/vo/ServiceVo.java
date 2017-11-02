@@ -2,19 +2,21 @@ package com.cscbms.vo;
 
 import java.sql.Timestamp;
 
+
 public class ServiceVo {
-	private Integer serviceId;
-	private Integer accountId;
-	private String hostIp;
-	private String serverUserName;
-	private String password;
-	private String status;
+	
+	private Integer serviceId; 
+	private Integer accountId;  //账务账号
+	private String hostIp;//服务器ip
+	private String serverUserName;//登录服务器账号
+	private String password; //密码
+	private String status; //状态
 	private Timestamp createDate;
 	private Timestamp pauseDate;
 	private Timestamp closeDate;
-	private Integer costId;
-	private String idcardNo;
-	private String realName;
+	private Integer costId;  //资费类型cost.name
+	private String idcardNo; //身份证
+	private String realName; 
 	private String costName;
 	private String descr;
 	

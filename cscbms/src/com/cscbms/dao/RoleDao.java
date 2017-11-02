@@ -19,7 +19,7 @@ public interface RoleDao {
 	
 	Role findById(int id);
 	
-	void saveRole(Role role);
+	int saveRole(Role role);
 	
 	void saveRoleModules(Map<String,Object> roleModules);
 	

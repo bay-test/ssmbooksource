@@ -17,6 +17,7 @@ import com.cscbms.entity.Admin;
 /**
  *	记录异常日志
  */
+
 @Component
 @Aspect
 public class ExceptionLogger {

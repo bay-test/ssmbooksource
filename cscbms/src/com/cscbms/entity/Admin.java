@@ -12,11 +12,20 @@ public class Admin {
 	private String telephone;//电话号码
 	private String email;//邮编
 	private Timestamp enrollDate;//注册时间
-
+	private String newPassword;
 	private List<Role> roles;//角色列表
 	private List<Integer> roleIds;//角色Id列表
 
 	
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
 	public List<Role> getRoles() {
 		return roles;
 	}
