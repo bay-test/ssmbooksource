@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.UserDao">
+
+	<resultMap type="user" id="userMap">
+		<id property="userid" column="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+	</resultMap>
+
+	<select id="findUser" parameterType="user" resultMap="userMap">
+
+		select * from user
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="username != null and username !=''">
+				and username=#{username}
+			</if>
+			<if test="password != null and password !=''">
+				and password=#{password}
+			</if>
+		</trim>
+
+	</select>
+
+
+	<update id="updateUser" parameterType="user">
+		update user u
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null and username != ''">
+				u.username = #{username},
+			</if>
+			<if test="sex != null and sex != ''">
+				u.sex = #{sex}
+			</if>
+		</trim>
+
+	</update>
+
+
+	<update id="updateSub" parameterType="user">
+		update user set
+		username='aa' where id=1
+
+	</update>
+	<update id="updateAdd" parameterType="user">
+		update user set
+		username='bb' where id=2
+
+	</update>
+
+</mapper>

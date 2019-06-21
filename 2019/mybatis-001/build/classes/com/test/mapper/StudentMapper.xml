@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.StudentMapper">
+	<cache></cache>
+
+
+	<sql id="stuColumns">
+
+		s.stuId,${name}
+	</sql>
+	<sql id="bookColumns">
+
+		b.bookId,b.bookName,b.bookNo
+	</sql>
+
+	<resultMap type="book" id="bookMap">
+		<id property="bookId" column="bookId" />
+		<result property="bookName" column="bookName" />
+		<result property="bookNo" column="bookNo" />
+
+	</resultMap>
+	<resultMap type="student" id="studentMap">
+		<id property="stuId" column="stuId" />
+		<result property="stuName" column="stuName" />
+		<collection property="books" resultMap="bookMap"></collection>
+	</resultMap>
+
+
+
+	<select id="selectStudent" parameterType="string" resultMap="studentMap">
+
+		select * from student where stuId=#{stuId}
+
+	</select>
+	<resultMap type="schoolRoll" id="schoolRollMap">
+		<id property="rollId" column="rollId" />
+		<result property="schoolName" column="schoolName" />
+		<result property="stuNo" column="stuNo" />
+		<!-- 方法一 -->
+		<!-- <result property="student.stuId" column="stuId" /> <result property="student.stuName" 
+			column="stuName" /> -->
+		<!-- 方法二 -->
+		<!-- <association property="student" resultMap="studentMap"></association> -->
+		<association property="student" select="selectStudent"
+			column="stuId"></association>
+
+	</resultMap>
+
+
+	<select id="selectSchoolRoll" resultMap="schoolRollMap">
+
+		select * from student
+		s,schoolRoll r where s.stuId=r.stuId
+
+	</select>
+
+	<select id="selectStudentBook" resultMap="studentMap"
+		parameterType="hashmap">
+
+		<!-- select * from student <where> stuId in <foreach collection="list" 
+			open="(" close=")" separator="," item="item" > #{item.stuId} </foreach> </where> -->
+
+
+
+
+		select * from student
+		<trim prefix="set" suffixOverrides=",">
+
+
+			<if test="stuId!=null">
+				and stuId = #{stuId}
+			</if>
+			<if test="stuName!=null">
+				and stuName = #{stuName}
+			</if>
+
+		</trim>
+
+
+
+
+	</select>
+
+
+	<insert id="insertStudent">
+		insert into student(stuName) values('333')
+
+
+
+
+	</insert>
+
+
+
+</mapper>

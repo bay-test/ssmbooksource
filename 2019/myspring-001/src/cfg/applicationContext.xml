@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context        
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+        ">
+	<!-- <context:component-scan base-package="com.test"/> -->
+	<!-- <context:annotation-config /> -->
+
+
+	<import resource="beans.xml" />
+	<bean id="people" class="com.test.bean.People">
+		<property name="rice" ref="meatRice"></property>
+		<property name="name" value="zhangsan"></property>
+		<!-- <constructor-arg name="meatRice" ref="meatRice"> </constructor-arg> 
+			<constructor-arg name="name" value="zhangsan"> </constructor-arg> <constructor-arg 
+			name="eggRice" ref="meatRice"> </constructor-arg> -->
+
+
+
+	</bean>
+
+	<bean id="eatAspect" class="com.test.bean.EatAspect"></bean>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* com.test.bean.People.*(..))"
+			id="allMethod" />
+		<aop:aspect id="myAspect" ref="eatAspect" order="2">
+			<aop:before method="doBefore" pointcut-ref="allMethod" />
+			<!-- <aop:around method="doAround" pointcut-ref="allMethod" /> <aop:after 
+				method="doAfter" pointcut-ref="allMethod" /> <aop:after-returning method="doReturning" 
+				pointcut-ref="allMethod" returning="result" /> <aop:after-throwing method="doThrowing" 
+				pointcut-ref="allMethod" throwing="ex" /> -->
+		</aop:aspect>
+		<aop:aspect id="myAspect1" ref="eatAspect" order="1">
+			<aop:around method="doAround" pointcut-ref="allMethod" />
+		</aop:aspect>
+		<aop:aspect id="myAspect3" ref="eatAspect" order="4">
+			<aop:after method="doAfter" pointcut-ref="allMethod" />
+		</aop:aspect>
+		<aop:aspect id="myAspect4" ref="eatAspect" order="3">
+			<aop:after-returning method="doReturning"
+				pointcut-ref="allMethod" returning="result" />
+		</aop:aspect>
+	
+	</aop:config>
+	<!-- <context:annotation-config></context:annotation-config> -->
+	<!-- <context:component-scan base-package="com.test.bean"></context:component-scan> 
+		<aop:aspectj-autoproxy /> -->
+
+
+</beans>
